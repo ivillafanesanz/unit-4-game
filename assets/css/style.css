@@ -1,0 +1,39 @@
+.crystal-image {
+    width: 100px;
+    height: 100px;
+    margin: 8px;
+  }
+  h1{
+  color:burlywood;
+  background-color: bisque;
+  }
+  body{
+    background-color: blanchedalmond;
+  }
+  .instructions{
+    background-color: blueviolet;
+  }
+  .container{
+    width:400px;
+    height: 800px;
+    padding:30px;
+    background-color:yellowgreen;
+  }
+  #number-to-guess{
+    background-color: lightblue;
+    height: 20px;
+  }
+  .win{
+   background-color: lightgreen;
+   height: 20px;
+
+  }
+
+  #losses{
+    background-color: lightcoral;
+    height:20px ;
+  }
+  #totalscore{
+    background-color: lightblue;
+    height: 20px;
+  }

@@ -1,127 +1,182 @@
 <!DOCTYPE html>
-<html lang="en-us">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Psychic game</title>
+  <title>unit-4-game</title>
+  <style type="text/css">
+    .crystal-image {
+    width: 100px;
+    height: 100px;
+    margin: 8px;
+  }
+  h1{
+  color:burlywood;
+  background-color: bisque;
+  }
+  body{
+    background-color: blanchedalmond;
+  }
+  .instructions{
+    background-color: blueviolet;
+  }
+  .container{
+    width:400px;
+    height: 800px;
+    padding:30px;
+    background-color:yellowgreen;
+  }
+  .guess{
+    background-color: lightblue;
+    height: 20px;
+  }
+  .win{
+   background-color: lightgreen;
+   height: 20px;
+   margin-top: 20px;
+
+  }
+
+  .loss{
+    background-color: lightcoral;
+    height:20px ;
+  }
+  .total{
+    background-color: lightblue;
+    height: 20px;
+  }
+
+
+    
+  </style>
+
 </head>
-
 <body>
-
-  <div>
-    <p id="directions-text">Guess what letter I'm thinking of!</p>
-    <p id="wins-text"></p>
-    <p id="losses-text"></p>
-    <p id="attempts-text"></p>
-    <p id="usedArray-text"></p>
+ <div class="container">
+  <h1>Crystal Collector!</h1>
+   <div class="instructions">
+  <p>You will be given a random number at the start of the game.</p>
+  <p>There are ............</p>
   </div>
 
 
+  <div class="guess"> wins so far: <span id="number-to-guess"></span> </div><br>
+  <!-- <div id="number-to-guess"><h1>number to guess:</h1></div> -->
+  <div class="win"> wins so far: <span id="wins"></span> </div><br>
+  <!-- <div id="wins"><p> </p></div> -->
+  <div class="loss"> Losses so far: <span id="losses"></span> </div><br>
+  <!-- <div id="losses"><p> </p></div><br> -->
+  <div class="total"> Total score so far: <span id="totalscore"></span> </div><br>
+  <!-- <div id="totalscore"><p> </p></div> -->
+
+  <!-- Note that this div is now empty. We will fill it dynamically -->
+  <div id="crystals">
+  </div>
+  </div>
+
+  <!-- JAVASCRIPT  -->
+  <!-- ========================================= -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
   <script type="text/javascript">
-    // Creates an array that lists out all of the options (the abc).
-    var computerChoices = ["a", "b", "c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+    var targetNumber = Math.floor(Math.random() * 120) + 19;
 
-    // Creating variables to hold the number of wins, losses, and ties. They start at 0.
-    var wins = 0;
-    var losses = 0;
-    var attempts = 10;
-    var usedArray = [];
+$("#number-to-guess").text(targetNumber);
 
-    // Create variables that hold references to the places in the HTML where we want to display things.
-    var directionsText = document.getElementById("directions-text");
-    var winsText = document.getElementById("wins-text");
-    var lossesText = document.getElementById("losses-text");
-    var attemptsText = document.getElementById("attempts-text");
-    var usedArrayText = document.getElementById("usedArray-text");
+var counter = 0;
+var losses = 0;
+var wins = 0;
 
-        winsText.textContent = "wins: " + wins;
-        lossesText.textContent = "losses: " + losses;
-        attemptsText.textContent = "guesses left: " + attempts;
-        usedArrayText.textContent = "guesses used: " + usedArray;
+// Now for the hard part. Creating multiple crystals each with their own unique number value.
+
+// We begin by expanding our array to include four options.
+var numberOptions = Math.floor(Math.random() * 12) + 1;
+// var numberOptions = [10, 5, 3, 7];
+
+// function initializeGame() {
+//   counter = "";
+
+//   $("#number-to-guess, #totalscore").empty();
+// }
 
 
-    // This function is run whenever the user presses a key.
-    document.onkeyup = function(event) {
+// Next we create a for loop to create crystals for every numberOption.
+for (var i = 0; i < 4; i++) {
 
-      // Determines which key was pressed.
-      var userGuess = event.key;
-      
+  // For each iteration, we will create an imageCrystal
+  var imageCrystal = $("<img>");
 
-      // Randomly chooses a choice from the options array. This is the Computer's guess.
-      var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+  // First each crystal will be given the class ".crystal-image".
+  // This will allow the CSS to take effect.
+  imageCrystal.addClass("crystal-image");
 
-      // Reworked our code from last step to use "else if" instead of lots of if statements.
+  // Each imageCrystal will be given a src link to the crystal image
+  var crystalOptions = ["assets/images/colorful.jpeg","assets/images/grey.jpeg","assets/images/pink.jpeg","assets/images/squares.jpeg"];
+  imageCrystal.attr("src", crystalOptions[i]);
+  // imageCrystal.attr("src", "http://cdn.playbuzz.com/cdn/35910209-2844-45c0-b099-f4d82878d54f/00261fda-4062-4096-81fd-8cf96b9034e8.jpg");
 
-      // This logic determines the outcome of the game (win/loss/tie), and increments the appropriate number
-      
-      
-    //   for(attempts === 10; attempts<10; attempts--){
-        
-        if (userGuess !== computerGuess) {
-          
-          usedArray.push(event.key);
-          attempts--;
-          
-          
-        }
-        // if (attempts === 0) {
-        //     losses++;
-        //     attempts = 10;
-        //     usedArray = [];
-        // }
-        else if ( userGuess === computerGuess){
-            wins++;
-            attempts = 10;
-            usedArray = [];
+  // Each imageCrystal will be given a data attribute called data-crystalValue.
+  // This data attribute will be set equal to the array value.
+  var numberOptions = Math.floor(Math.random() * 12) + 1;
+  imageCrystal.attr("data-crystalvalue", numberOptions);
 
-        }
-        if (attempts === 0) {
-            losses++;
-            attempts = 10;
-            usedArray = [];
-        }
-        
-        // for (attempts = 0,) {
-        //     losses++;
-        // }
+  // Lastly, each crystal image (with all it classes and attributes) will get added to the page.
+  $("#crystals").append(imageCrystal);
 
-        // else {
-        //     losses++;
-        // }
-        winsText.textContent = "wins: " + wins;
-        lossesText.textContent = "losses: " + losses;
-        attemptsText.textContent = "guesses left: " + attempts;
-        usedArrayText.textContent = "guesses used: " + usedArray;      
-      }
+}
+
+// This time, our click event applies to every single crystal on the page. Not just one.
+$(".crystal-image").on("click", function() {
+
+  // Determining the crystal's value requires us to extract the value from the data attribute.
+  // Using the $(this) keyword specifies that we should be extracting the crystal value of the clicked crystal.
+  // Using the .attr("data-crystalvalue") allows us to grab the value out of the "data-crystalvalue" attribute.
+  // Since attributes on HTML elements are strings, we must convert it to an integer before adding to the counter
+
+  var crystalValue = ($(this).attr("data-crystalvalue"));
+  crystalValue = parseInt(crystalValue);
+  // We then add the crystalValue to the user's "counter" which is a global variable.
+  // Every click, from every crystal adds to the global counter.
+  counter += crystalValue;
+
+  // $("#number-to-guess").text(targetNumber);  CONTINUE HERE!!!! make so that counter is
+
+  // All of the same game win-lose logic applies. So the rest remains unchanged.
+  
+
+  $('#totalscore').text(counter);
+
+  if (counter === targetNumber){
+    wins++;
+    counter = 0;
+    targetNumber = Math.floor(Math.random() * 120) + 19;
+    $("#number-to-guess").text(targetNumber);
     
-      
-      
-     
-      
-      
-      
-      
-    //   || (userGuess === "p") || (userGuess === "s")) {
+    $('#wins').html(wins);
 
-    //     if ((userGuess === "r" && computerGuess === "s") ||
-    //       (userGuess === "s" && computerGuess === "p") || 
-    //       (userGuess === "p" && computerGuess === "r")) {
-    //       wins++;
-    //     } else if (userGuess === computerGuess) {
-    //       ties++;
-    //     } else {
-    //       losses++;
-    //     }
+  }
 
-        // Hide the directions
-        // directionsText.textContent = "";
+  else if (counter >= targetNumber){
+    losses++;
+    counter = 0;
+    targetNumber = Math.floor(Math.random() * 120) + 19;
+    $("#number-to-guess").text(targetNumber);
+    numberOptions = Math.floor(Math.random() * 12) + 1;
+    $('#losses').text(losses);
 
-        // Display the user and computer guesses, and wins/losses/ties.
 
-      
-    
+  }
+
+  // if (counter === targetNumber) {
+  //   alert("You win!");
+  // }
+
+  // else if (counter >= targetNumber) {
+  //   alert("You lose!!");
+  // }
+
+});
+
+
+  
   </script>
-
 </body>
-
 </html>
